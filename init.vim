@@ -385,6 +385,10 @@ endfunction
 " set jj
 inoremap jj <Esc>
 
+
+" powerline fonts
+let g:airline_powerline_fonts = 1
+
 call plug#begin()
 " The default plugin directory will be as follows:
 "   - Vim (Linux/macOS): '~/.vim/plugged'
@@ -396,19 +400,9 @@ call plug#begin()
 
 " Make sure you use single quotes
 
-" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
-Plug 'junegunn/vim-easy-align'
-
-" Any valid git URL is allowed
-" Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-
 " Multiple Plug commands can be written in a single line using | separators
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-
-" On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-" Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
 " ranger file explorer
 Plug 'kevinhwang91/rnvimr'
@@ -425,6 +419,19 @@ Plug 'tpope/vim-surround'
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
+" File tree
+Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
+Plug 'kyazdani42/nvim-tree.lua'
+
+" markdown
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+
+" LSP package manager
+Plug 'williamboman/mason.nvim'
+
+" vim-devicons
+" Plug 'ryanoasis/vim-devicons'
+
 " Unmanaged plugin (manually installed and updated)
 " Plug '~/my-prototype-plugin'
 
@@ -435,15 +442,26 @@ call plug#end()
 "   filetype indent off   " Disable file-type-specific indentation
 "   syntax off            " Disable syntax highlighting
 
-:lua require('hop').setup()
-
+" :lua 
 lua << EOF
+vim.g.loaded = 1
+vim.g.loaded_netrwPlugin = 1
+require('hop').setup()
+require('mason').setup()
 vim.api.nvim_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
 vim.api.nvim_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
 vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
 vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
+require("nvim-tree").setup()
 EOF
 
+" shortcuts ranger
 tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
 nnoremap <silent> <M-o> :RnvimrToggle<CR>
 tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
+
+" shortcuts nvim-tree
+nnoremap <silent> <C-B> :NvimTreeToggle<CR>
+
+" shortcuts markdown
+nmap <M-p> <Plug>MarkdownPreviewToggle
