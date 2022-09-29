@@ -462,6 +462,3 @@ tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
 
 " shortcuts nvim-tree
 nnoremap <silent> <C-B> :NvimTreeToggle<CR>
-
-" shortcuts markdown
-nmap <M-p> <Plug>MarkdownPreviewToggle
